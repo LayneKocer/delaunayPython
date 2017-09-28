@@ -1,15 +1,13 @@
-SCREEN_WIDTH = 512#500
-SCREEN_HEIGHT = 512#400
+SCREEN_WIDTH = 512  # 500
+SCREEN_HEIGHT = 512  # 400
 AMOUNT_OF_VERTEXES = 10
-
-
 
 ########Colors########
 Aqua = (0, 255, 255)
 Black = (0, 0, 0)
-Blue =(0, 0, 255)
+Blue = (0, 0, 255)
 Fuchsia = (255, 0, 255)
-Gray= (128, 128, 128)
+Gray = (128, 128, 128)
 Green = (0, 128, 0)
 Lime = (0, 255, 0)
 Maroon = (128, 0, 0)
@@ -49,57 +47,63 @@ def splitListIntoTripleAndDoubles(list, finishedList=[]):
         firstHalf = splitListIntoTripleAndDoubles(firstHalf, finishedList)
     if len(secondHalf) > 3:
         secondHalf = splitListIntoTripleAndDoubles(secondHalf, finishedList)
-    if len(firstHalf) <= 3 :
+    if len(firstHalf) <= 3:
         finishedList.append(firstHalf)
     if len(secondHalf) <= 3:
         finishedList.append(secondHalf)
-    if len(firstHalf) <= 3 and len(secondHalf) <=3:#len(list):
+    if len(firstHalf) <= 3 and len(secondHalf) <= 3:  # len(list):
         return list
     else:
         return finishedList
+
 
 def drawVertexesFromList(screen, color, list):
     for vertex in list:
         pygame.draw.circle(screen, color, vertex, 3)
 
-def drawInitialEdges(screen, color,subsetlist):
+
+def drawInitialEdges(screen, color, subsetlist):
     for subset in subsetlist:
         if len(subset) == 2:
-            pygame.draw.line(screen,color, subset[0], subset[1], 1)
+            pygame.draw.line(screen, color, subset[0], subset[1], 1)
         if len(subset) == 3:
             pygame.draw.polygon(screen, color, subset, 1)
 
+
 def getBaseLREdge(leftTriangulation, rightTriangulation):
+    return  # todo
 
 
 def drawMergedEdges(screen, color, subsetlist):
     for i in range(0, len(subsetlist)):
-        baseLREdge = getBaseLREdge(subsetlist[i], subsetlist[i+1])
+        baseLREdge = getBaseLREdge(subsetlist[i], subsetlist[i + 1])
         pygame.draw.line(screen, color, baseLREdge)
-        #pygame.draw.line(screen, color, subsetlist[0][0], subsetlist[1][0], 1)
-        #pygame.draw.line(screen, color, subsetlist[0][0], subsetlist[1][1], 1)
+        # pygame.draw.line(screen, color, subsetlist[0][0], subsetlist[1][0], 1)
+        # pygame.draw.line(screen, color, subsetlist[0][0], subsetlist[1][1], 1)
+
 
 def main():
     list = generateRandomListOfVertexes(AMOUNT_OF_VERTEXES)
     sortListOfVertexes(list)
     print(list)
-    subsetlist =splitListIntoTripleAndDoubles(list)
+    subsetlist = splitListIntoTripleAndDoubles(list)
     print(subsetlist)
 
     pygame.init()
-    screen=pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
     screen.fill(White)
     drawVertexesFromList(screen, Blue, list)
     drawInitialEdges(screen, Red, subsetlist)
     drawMergedEdges(screen, Green, subsetlist)
     while True:
-            for event in pygame.event.get():
-                if event.type==QUIT:
-                    pygame.quit()
-                    sys.exit()
-                #if event.type==KEYDOWN:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+                # if event.type==KEYDOWN:
                 #   return# main()
 
-            pygame.display.update()
+        pygame.display.update()
+
 
 main()
