@@ -51,7 +51,7 @@ def splitListIntoTripleAndDoubles(list, finishedList=[]):
         finishedList.append(firstHalf)
     if len(secondHalf) <= 3:
         finishedList.append(secondHalf)
-    if len(firstHalf) <= 3 and len(secondHalf) <= 3:  # len(list):
+    if len(firstHalf) <= 3 and len(secondHalf) <= 3:
         return list
     else:
         return finishedList
@@ -102,15 +102,22 @@ def drawVertexesFromList(screen, color, list):
         pygame.draw.circle(screen, color, vertex, 3)
 
 
-def drawInitialEdges(screen, color, subsetlist):
-    for subset in subsetlist:
-        if len(subset) == 2:
-            pygame.draw.line(screen, color, subset[0], subset[1], 1)
-        if len(subset) == 3:
-            pygame.draw.polygon(screen, color, subset, 1)
+def triangulateEdgesNotWithinATriangle(vertexList, edgeList, triangleList):
+    edgesNotWithinATriangle = []
+    for edgeIndex in range(0, len(edgeList)):
+        inTriangle = False
+        for triangle in triangleList:
+            if edgeIndex in triangle:
+                inTriangle = True
+        if not inTriangle:
+            edgesNotWithinATriangle.append(edgeIndex)
+    print("edgesNotWithinATriangle = " + str(edgesNotWithinATriangle))
+    # does this actually matter whether or not we are in a triangle?
+    # TODO do something with these edges maybe
+    return edgeList, triangleList#tpdp
 
 
-def getBaseLREdge(leftTriangulation, rightTriangulation):
+def getBaseLREdge(listLeftTriangles, listRightTriangles, vertexList, edgeList, triangleList):
     return  # todo
 
 
@@ -127,10 +134,12 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
     screen.fill(White)
     drawVertexesFromList(screen, Blue, vertexList)
-    drawInitialEdges(screen, Red, subsetlist)
+    drawEdges(screen, Red, vertexList, edgeList)
 
-    drawEdges(screen, Blue, vertexList, edgeList)
-    drawTriangles(screen, Yellow, vertexList, edgeList, triangleList)
+    drawTriangles(screen, Olive, vertexList, edgeList, triangleList)
+
+    edgeList, triangleList = triangulateEdgesNotWithinATriangle(vertexList, edgeList, triangleList)
+
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
