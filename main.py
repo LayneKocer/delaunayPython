@@ -56,6 +56,7 @@ def splitListIntoTripleAndDoubles(list, finishedList=[]):
     else:
         return finishedList
 
+
 def convertSubsetListIntoEdgesAndTriangles(subsetList):
     edgeList = []
     triangleList = []
@@ -67,29 +68,34 @@ def convertSubsetListIntoEdgesAndTriangles(subsetList):
             vertexIndexCounter = vertexIndexCounter + 2
             edgeIndexCounter = edgeIndexCounter + 1
         if len(subset) == 3:
-            triangleList.append([edgeIndexCounter, edgeIndexCounter+ 1, edgeIndexCounter+ 2])
+            triangleList.append([edgeIndexCounter, edgeIndexCounter + 1, edgeIndexCounter + 2])
             edgeList.append([vertexIndexCounter, vertexIndexCounter + 1])
             edgeList.append([vertexIndexCounter, vertexIndexCounter + 2])
-            edgeList.append([vertexIndexCounter +1, vertexIndexCounter + 2])
+            edgeList.append([vertexIndexCounter + 1, vertexIndexCounter + 2])
             vertexIndexCounter = vertexIndexCounter + 3
-            edgeIndexCounter = edgeIndexCounter +3
+            edgeIndexCounter = edgeIndexCounter + 3
 
     return edgeList, triangleList
+
 
 def drawEdge(screen, color, vertexList, edge):
     pygame.draw.line(screen, color, vertexList[edge[0]], vertexList[edge[1]], 1)
 
+
 def drawEdges(screen, color, vertexList, edgeList):
     for edge in edgeList:
-            drawEdge(screen, color, vertexList, edge)
+        drawEdge(screen, color, vertexList, edge)
+
 
 def drawTriangle(screen, color, vertexList, edgeList, triangle):
     for edge in triangle:
         drawEdge(screen, color, vertexList, edgeList[edge])
 
+
 def drawTriangles(screen, color, vertexList, edgeList, triangleList):
     for triangle in triangleList:
         drawTriangle(screen, color, vertexList, edgeList, triangle)
+
 
 def drawVertexesFromList(screen, color, list):
     for vertex in list:
@@ -106,15 +112,6 @@ def drawInitialEdges(screen, color, subsetlist):
 
 def getBaseLREdge(leftTriangulation, rightTriangulation):
     return  # todo
-
-
-def drawMergedEdges(screen, color, subsetlist):
-    return  # todo
-    # for i in range(0, len(subsetlist)):
-    #   baseLREdge = getBaseLREdge(subsetlist[i], subsetlist[i + 1])
-    #   pygame.draw.line(screen, color, baseLREdge)
-    #   pygame.draw.line(screen, color, subsetlist[0][0], subsetlist[1][0], 1)
-    #   pygame.draw.line(screen, color, subsetlist[0][0], subsetlist[1][1], 1)
 
 
 def main():
@@ -134,7 +131,6 @@ def main():
 
     drawEdges(screen, Blue, vertexList, edgeList)
     drawTriangles(screen, Yellow, vertexList, edgeList, triangleList)
-    #drawMergedEdges(screen, Green, subsetlist)
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
